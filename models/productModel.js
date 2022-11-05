@@ -31,7 +31,7 @@ const productSchema = new Schema({
     required: true,
   },
   ProductId: {
-    type: [Object],
+    type: String,
     required: true,
   },
 });

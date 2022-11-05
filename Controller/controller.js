@@ -35,7 +35,7 @@ const PostData = async (req, res) => {
 
     await products.save();
 
-    res.send({ Status: "Done", products });
+    res.send({ message: "Product Added", Status: "Done", products });
   } catch (error) {
     res.send(error);
   }
