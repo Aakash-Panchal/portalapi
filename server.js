@@ -2,8 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./Routes/authRoutes");
 const DataRoutes = require("./Routes/DataRoutes");
+const TokenRoute = require("./Routes/CheckTokenRoute");
 const cors = require("cors");
-const Checktoken = require("./Routes/Checktoken");
 
 require("dotenv").config();
 
@@ -19,7 +19,7 @@ app.use("/images", express.static("images"));
 
 app.use("/api/admin", authRoutes);
 app.use("/api/products", DataRoutes);
-app.use("/api/checktoken", Checktoken);
+app.use("/api/checktoken", TokenRoute);
 
 app.listen(`${process.env.PORT}`, () => {
   console.log(`Server Started at ${process.env.PORT}`);
