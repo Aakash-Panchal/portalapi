@@ -44,8 +44,8 @@ const PostData = async (req, res) => {
 const GetSingleProduct = async (req, res) => {
   try {
     //Get Single project from database
-    const id = req.params.id;
-    const singleProject = await Products.findById(id);
+    const ProductId = req.params.ProductId;
+    const singleProject = await Products.findOne(ProductId);
 
     res.status(200).send(singleProject);
   } catch (error) {
@@ -55,8 +55,8 @@ const GetSingleProduct = async (req, res) => {
 
 const DeleteProduct = async (req, res) => {
   try {
-    const id = req.params.id;
-    const products = await Products.findByIdAndDelete(id);
+    const ProductId = req.params.ProductId;
+    const products = await Products.findOneAndDelete(ProductId);
 
     res.send(`${products.ProductName} has been deleted.`);
   } catch (error) {
