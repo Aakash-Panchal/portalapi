@@ -44,7 +44,7 @@ const PostData = async (req, res) => {
 const GetSingleProduct = async (req, res) => {
   try {
     //Get Single project from database
-    const ProductId = req.params.ProductId;
+    const ProductId = req.params.id;
     const singleProject = await Products.findOne(ProductId);
 
     res.status(200).send(singleProject);
@@ -53,9 +53,26 @@ const GetSingleProduct = async (req, res) => {
   }
 };
 
+const EditProduct = async (req, res) => {
+  try {
+    const product = req.body;
+    const ProductId = req.params.id;
+
+    console.log(product);
+
+    const singleProject = await Products.findByIdAndUpdate(ProductId, {
+      $set: product,
+    });
+
+    res.status(200).send({ message: "Product Updated", status: true });
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 const DeleteProduct = async (req, res) => {
   try {
-    const ProductId = req.params.ProductId;
+    const ProductId = req.params.id;
     const products = await Products.findOneAndDelete(ProductId);
 
     res.send(`${products.ProductName} has been deleted.`);
@@ -69,4 +86,5 @@ module.exports = {
   GetSingleProduct,
   PostData,
   DeleteProduct,
+  EditProduct,
 };
