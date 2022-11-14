@@ -13,8 +13,8 @@ const Checktoken = (req, res) => {
   } catch (error) {
     //Send Error
     res
-      .status(401)
-      .send({ Error: error, Message: "Authorization Failed", status: true });
+      .status(200)
+      .send({ Error: error, Message: "Authorization Failed", status: false });
   }
 };
 
