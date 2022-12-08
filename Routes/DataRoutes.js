@@ -11,8 +11,8 @@ const router = express.Router();
 
 router.post("/", verifyAdmin, PostData);
 router.get("/", verifyAdmin, Getdata);
-router.get("/:id", verifyAdmin, GetSingleProduct);
-router.patch("/:id", verifyAdmin, EditProduct);
-router.delete("/:id", verifyAdmin, DeleteProduct);
+router.get("/:ProductId", verifyAdmin, GetSingleProduct);
+router.patch("/:ProductId", verifyAdmin, EditProduct);
+router.delete("/:ProductId", verifyAdmin, DeleteProduct);
 
 module.exports = router;

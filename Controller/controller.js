@@ -31,8 +31,6 @@ const PostData = async (req, res) => {
       ProductId: req.body.ProductId,
     });
 
-    console.log(products);
-
     await products.save();
 
     res.send({ message: "Product Added", Status: "Done", products });
@@ -44,8 +42,9 @@ const PostData = async (req, res) => {
 const GetSingleProduct = async (req, res) => {
   try {
     //Get Single project from database
-    const ProductId = req.params.id;
-    const singleProject = await Products.findOne(ProductId);
+    const ProductId = req.params.ProductId;
+
+    const singleProject = await Products.findOne({ ProductId: ProductId });
 
     res.status(200).send(singleProject);
   } catch (error) {
@@ -56,13 +55,14 @@ const GetSingleProduct = async (req, res) => {
 const EditProduct = async (req, res) => {
   try {
     const product = req.body;
-    const ProductId = req.params.id;
+    const ProductId = req.params.ProductId;
 
-    console.log(product);
-
-    const singleProject = await Products.findByIdAndUpdate(ProductId, {
-      $set: product,
-    });
+    const singleProject = await Products.findByIdAndUpdate(
+      { ProductId: ProductId },
+      {
+        $set: product,
+      }
+    );
 
     res.status(200).send({ message: "Product Updated", status: true });
   } catch (error) {
@@ -72,8 +72,8 @@ const EditProduct = async (req, res) => {
 
 const DeleteProduct = async (req, res) => {
   try {
-    const ProductId = req.params.id;
-    const products = await Products.findOneAndDelete(ProductId);
+    const ProductId = req.params.ProductId;
+    const products = await Products.findOneAndDelete({ ProductId: ProductId });
 
     res.send(`${products.ProductName} has been deleted.`);
   } catch (error) {

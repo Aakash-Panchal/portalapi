@@ -21,6 +21,8 @@ const addAdmin = async (req, res) => {
       name: req.body.name,
       Id: req.body.Id,
       password: hashedPassword,
+      ShopName: req.body.ShopName,
+      verified: req.body.verified,
     });
 
     await admin.save();
@@ -38,6 +40,12 @@ const login = async (req, res) => {
 
     const admin = await Admin.findOne({ Id });
 
+    console.log(admin);
+
+    const { ShopName, verified } = admin;
+
+    console.log(ShopName, verified);
+
     if (!admin)
       return res.json({
         message: "Incorrect Id or Password",
@@ -47,7 +55,44 @@ const login = async (req, res) => {
 
     const isPasswordValid = await bcrypt.compare(password, admin.password);
 
-    console.log(isPasswordValid);
+    if (!isPasswordValid)
+      return res.json({
+        message: "Incorrect Password",
+        status: false,
+        token: null,
+      });
+
+    const token = jwt.sign({ Id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "1d",
+    });
+
+    res.json({
+      message: "Login Success",
+      status: true,
+      token: token,
+      ShopName: ShopName,
+      verified: verified,
+    });
+  } catch (error) {
+    res.send("Not authorized");
+  }
+};
+
+const getAdminInfo = async (req, res) => {
+  try {
+    const { Id } = req.body;
+    const password = req.body.password;
+
+    const admin = await Admin.findOne({ Id });
+
+    if (!admin)
+      return res.json({
+        message: "Incorrect Id or Password",
+        status: false,
+        token: null,
+      });
+
+    const isPasswordValid = await bcrypt.compare(password, admin.password);
 
     if (!isPasswordValid)
       return res.json({
@@ -66,4 +111,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { addAdmin, login };
+module.exports = { addAdmin, login, getAdminInfo };

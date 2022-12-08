@@ -15,6 +15,14 @@ const AdminSchema = new Schema({
     type: String,
     required: true,
   },
+  ShopName: {
+    type: String,
+    required: true,
+  },
+  verified: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Admin", AdminSchema);
